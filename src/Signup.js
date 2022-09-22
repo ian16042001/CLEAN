@@ -32,10 +32,10 @@ const Signup = props => {
         <View
           style={{
             backgroundColor: 'white',
-            height: 700,
+            height: height,
             width: width,
             borderTopLeftRadius: 130,
-            paddingTop: 50,
+            paddingTop: 76,
             alignItems: 'center',
           }}>
           <Field placeholder="Noms" />
