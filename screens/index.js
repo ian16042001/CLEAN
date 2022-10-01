@@ -5,6 +5,7 @@ import DetailsScreen from "./DetailsScreen";
 import Onboarding from "./Onboarding";
 import Reservation from "./Reservation";
 import Pay from "./Pay";
+import OfferPack from "./OfferPack";
 
 
 export {
@@ -14,5 +15,6 @@ export {
     DetailsScreen,
     Onboarding,
     Reservation,
-    Pay
+    Pay,
+    OfferPack
 }

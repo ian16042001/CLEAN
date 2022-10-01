@@ -20,7 +20,7 @@ import COLORS from '../constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import hotels from '../constants/hotels';
 const {width, height} = Dimensions.get('screen');
-import { Modalize } from 'react-native-modalize';
+// import { Modalize } from 'react-native-modalize';
 
 // TODO: 
 // BOOKING date and period
@@ -31,18 +31,14 @@ import { Modalize } from 'react-native-modalize';
 const Reservation = ({navigation, route}) => {
   const item = route.params;
 
-  const modalizeRef = useRef(null);
 
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
 
   const [isInTown, setInTown] = useState(true);
   const toggleSwitchInTown = () => setInTown(previousState => !previousState);
 
   const [choosenHotel, SetChoosenHotel] = useState('')
 
-  const [isLogded, setLogded] = useState(true);
+  const [isLogded, setLogded] = useState(false);
   const toggleSwitchLogded = () => setLogded(previousState => !previousState);
 
   const [isGuide, setGuide] = useState(true);
@@ -161,31 +157,11 @@ const Reservation = ({navigation, route}) => {
           </View>
           <View style={{marginTop: 20}}>
             <Text style={{lineHeight: 20, color: COLORS.primary, alignSelf: 'center', textAlign: 'center', fontWeight: 'bold', fontSize: 19}}>
-              Reservation ville {item.name}
+              Formulaire d'enrollement {item.name}
             </Text>
           </View>
         </View>
         
-        <View style={{width: '100%'}}>
-          {/* <TouchableOpacity onPress={() => showMode('date')}>
-            <Text>Date</Text>
-          </TouchableOpacity> */}
-          {
-          show && (
-            <DateTimePicker 
-            testID='dateTimePicker'
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display='default'
-            onChange={onChange}
-            style={{marginRight: width / 2.7}}
-            
-            />
-          )
-        }
-        </View>
-
 
         <View
             style={{
@@ -196,7 +172,7 @@ const Reservation = ({navigation, route}) => {
             alignItems: 'center',
             }}>
             <Text style={{fontSize: 20, marginLeft: 15, fontWeight: 'bold', color: COLORS.orange}}>
-            Guide Touristique
+            Ramassage
             </Text>
             <View style={style.priceTag}>
             <Text
@@ -206,7 +182,7 @@ const Reservation = ({navigation, route}) => {
                 color: COLORS.grey,
                 marginLeft: 5,
                 }}>
-                10 000 FCFA
+                payement
             </Text>
             <Text
                 style={{
@@ -215,86 +191,16 @@ const Reservation = ({navigation, route}) => {
                 color: COLORS.grey,
                 marginLeft: 5,
                 }}>
-                / jours
+                / mois
             </Text>
             </View>
         </View>
         
-        <View style={{
-            // marginTop: 20,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 20,
-            alignItems: 'center',
-          }}>
-            <Text style={{fontSize: 15}}>Déjà dans la ville? </Text>
-            <Switch
-                trackColor={{ false: '#767577', true: COLORS.primary }}
-                thumbColor={isInTown ? '#ffff' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitchInTown}
-                value={isInTown}
-            />
-        </View>
-        {/* {
-            isInTown ? null :
-
-        } */}
 
 
-        <View style={{
-            marginTop: -20,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 20,
-            alignItems: 'center',
-          }}>
-            <Text style={{fontSize: 15}}>Déjà logé? </Text>
-            <Switch
-                trackColor={{ false: '#767577', true: COLORS.primary }}
-                thumbColor={isLogded ? '#ffff' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitchLogded}
-                value={isLogded}
-            />
-        </View>
-        {
-            isLogded ? null :
+  
 
             <View>
-                <View
-                style={{
-                marginTop: -15,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingLeft: 20,
-                alignItems: 'center',
-                }}>
-                <Text style={{fontSize: 15, marginLeft: 15}}>
-                Prix par jours
-                </Text>
-                <View style={style.priceTag}>
-                <Text
-                    style={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    color: COLORS.grey,
-                    marginLeft: 5,
-                    }}>
-                    {item.price} FCFA
-                </Text>
-                <Text
-                    style={{
-                    fontSize: 12,
-                    fontWeight: 'bold',
-                    color: COLORS.grey,
-                    marginLeft: 5,
-                    }}>
-                    + dejeuner
-                </Text>
-                </View>
-                </View>
-
                 {/* Top villes */}
                 <View
                 style={{
@@ -304,7 +210,7 @@ const Reservation = ({navigation, route}) => {
                     marginTop: 10
                 }}>
                 <Text style={{fontWeight: 'bold', color: COLORS.grey}}>
-                    Hotel patenaire
+                    Groupe de rammassage
                 </Text>
                 <Text style={{color: COLORS.primary, textDecorationLine: 'underline'}}>{choosenHotel}</Text>
                 </View>
@@ -320,16 +226,15 @@ const Reservation = ({navigation, route}) => {
                 renderItem={({item}) => <TopHotelCard hotel={item} />}
                 />
           </View>
-        }
 
 
-        <TouchableOpacity onPress={onOpen} style={style.btn}>
+        <TouchableOpacity onPress={() => navigation.navigate('OfferPack')} style={style.btn}>
           <Text style={{color: COLORS.white, fontSize: 18, fontWeight: 'bold'}}>
-            Confirmer ma reservation
+            Confirmer mon enrollement
           </Text>
         </TouchableOpacity>
       </View>
-      <Modalize ref={modalizeRef}></Modalize>
+      {/* <Modalize ref={modalizeRef}></Modalize> */}
     </ScrollView>
   );
 };
@@ -339,7 +244,7 @@ const style = StyleSheet.create({
     height: 55,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 20,
     backgroundColor: COLORS.primary,
     marginHorizontal: 20,
     borderRadius: 10,

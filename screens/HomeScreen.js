@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -11,6 +11,7 @@ import {
   View,
   Image,
   Animated,
+  ImageBackground
 } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
@@ -21,6 +22,13 @@ import hotels from '../constants/hotels';
 import villes from '../constants/villes';
 const {width} = Dimensions.get('screen');
 const cardWidth = width / 1.8;
+import { firebase } from '../firebase';
+const { 
+  MOMO,
+  OM,
+  profilPic,
+  ww
+  } = images;
 
 import { images, icons, FONTS, SIZES } from '../constants';
 
@@ -188,9 +196,37 @@ const HomeScreen = ({navigation}) => {
     )
 }
 
+const {currentUser} = firebase.auth();
+
+const [info, setInfo] = useState([]);
+useEffect(() => {
+  const unsubscribe = firebase.firestore()
+  .collection('Users').doc(currentUser.uid).onSnapshot(snapshot=>
+      { 
+          setInfo({
+           id: snapshot.data().info.id,
+           Nom: snapshot.data().info.Nom,
+           Email: snapshot.data().info.Email,
+           Numero: snapshot.data().info.Numero,
+           status: snapshot.data().info.status,
+        //    photo: snapshot.data().info.photo,
+        //    abonnement: snapshot.data().info.abonnement,
+        //    profile: snapshot.data().info.profile,
+        //    offres: snapshot.data().offres,
+        //     demandes: snapshot.data().demandes,
+            // chatRoom: snapshot.data().chatRoom
+       });
+       }
+   )
+   return () => unsubscribe();
+}, [])
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <View style={style.header}>
+      {
+        !currentUser ?
+
+        <View style={style.header}>
         <View style={{paddingBottom: 15}}>
           <Text style={{fontSize: 30, fontWeight: 'bold'}}>
             Aide au ramassage
@@ -205,12 +241,55 @@ const HomeScreen = ({navigation}) => {
         </View>
         <MaterialIcons name="person-outline" size={38} color={COLORS.grey} />
       </View>
+
+        :
+
+        <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 10,
+          // backgroundColor: 'white'
+          padding: 10,
+          // marginTop: 25
+        }}>
+          <View>
+              <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+              Hello {info.Nom}.
+              </Text>
+              <View style={{paddingBottom: 15}}>
+          <Text style={{fontSize: 25, fontWeight: 'bold', color: 'gray'}}>
+            Aide au ramassage
+          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize: 30, fontWeight: 'bold', color: 'gray'}}>d'</Text>
+            <Text
+              style={{fontSize: 30, fontWeight: 'bold', color: COLORS.primary}}>
+              ordure
+            </Text>
+          </View>
+        </View>
+          </View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <ImageBackground
+            source={profilPic}
+            style={{width: 55, height: 55, overflow: 'hidden', borderRadius: 25}}
+            // imageStyle={{borderRadius: 25}}
+          >
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>
+        
+      }
+
+
       <ScrollView showsVerticalScrollIndicator={false}>
 
         <View style={style.searchInputContainer}>
           <MaterialIcons name="search" size={30} style={{marginLeft: 20}} />
           <TextInput
-            placeholder="Quelle destination ?"
+            placeholder="Au etes vous situé ?"
             style={{fontSize: 20, paddingLeft: 10}}
           />
         </View>

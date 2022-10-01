@@ -3,7 +3,7 @@ import { images } from "../constants";
 const hotels = [
   {
     id: '1',
-    name: 'Silver Hotel & SPA',
+    name: 'Groupe A',
     location: 'Green street,Central district',
     price: 120,
     image: images.hotel1,
@@ -11,7 +11,7 @@ const hotels = [
   },
   {
     id: '2',
-    name: 'Bring Hotel',
+    name: 'Groupe B',
     location: 'Yuki street',
     price: 70,
     image: images.hotel2,
@@ -19,7 +19,7 @@ const hotels = [
   },
   {
     id: '3',
-    name: 'Aluna Hotel',
+    name: 'Groupe C',
     location: 'Almond street',
     price: 90,
     image: images.hotel3,
@@ -27,7 +27,7 @@ const hotels = [
   },
   {
     id: '4',
-    name: 'Green Hotel',
+    name: 'Groupe D',
     location: 'Main street',
     price: 100,
     image: images.hotel4,

@@ -128,7 +128,7 @@ const DetailsScreen = ({navigation, route}) => {
         </View>
         <TouchableOpacity onPress={()  => { logged ? navigation.navigate('Reservation', item) : navigation.navigate('Login')}} style={style.btn}>
           <Text style={{color: COLORS.white, fontSize: 18, fontWeight: 'bold'}}>
-            Visitez
+            S'enroller
           </Text>
         </TouchableOpacity>
       </View>

@@ -22,6 +22,9 @@ export const onboardingImage = require("../assets/images/onboarding_image.jpg");
 export const skiVilla = require("../assets/images/ski_villa.jpg");
 export const skiVillaBanner = require("../assets/images/ski_villa_banner.jpg");
 
+export const MOMO = require("../assets/img/MoMo.png");
+export const OM = require("../assets/img/OM.png");
+export const profilPic = require("../assets/img/profilPic.png");
 
 export default {
     facebook,
@@ -47,4 +50,8 @@ export default {
     onboardingImage,
     skiVilla,
     skiVillaBanner,
+
+    MOMO,
+    OM,
+    profilPic
 }

@@ -134,7 +134,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { firebase } from './firebase';
 
 
-import {Login, Register, HomeScreen, DetailsScreen, Onboarding, Reservation, Pay} from "./screens"
+import {Login, Register, HomeScreen, DetailsScreen, Onboarding, Reservation, OfferPack} from "./screens"
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -162,7 +162,7 @@ export default function App() {
           <Stack.Screen name="Login" component={Login}/>
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Reservation" component={Reservation} />
-          <Stack.Screen name="Pay" component={Pay} />
+          <Stack.Screen name="OfferPack" component={OfferPack} />
         </Stack.Navigator>
       </NavigationContainer>
   );
