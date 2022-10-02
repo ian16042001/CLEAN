@@ -197,41 +197,41 @@ const HomeScreen = ({navigation}) => {
 }
 
 const [logged, setLogged] = useState(false)
+const [info, setInfo] = useState([]);
 
 useEffect(() => {
   const unsubscribe = firebase.auth().onAuthStateChanged(user => {
     if (user) {
       setLogged(true)
+
+const {currentUser} = firebase.auth();
+
+      firebase.firestore()
+    .collection('Users').doc(currentUser.uid).onSnapshot(snapshot=>
+        { 
+            setInfo({
+             id: snapshot.data().info.id,
+             Nom: snapshot.data().info.Nom,
+             Email: snapshot.data().info.Email,
+             Numero: snapshot.data().info.Numero,
+             status: snapshot.data().info.status,
+         });
+         }
+     )
     }
   })
   return unsubscribe;
 }, [])
 
 
-const {currentUser} = firebase.auth();
+// if (logged) {
+// // const {currentUser} = firebase.auth();
+//   useEffect(() => {
+//     const unsubscribe = 
+//      return () => unsubscribe();
+//   }, [])
+// }
 
-const [info, setInfo] = useState([]);
-useEffect(() => {
-  const unsubscribe = firebase.firestore()
-  .collection('Users').doc(currentUser.uid).onSnapshot(snapshot=>
-      { 
-          setInfo({
-           id: snapshot.data().info.id,
-           Nom: snapshot.data().info.Nom,
-           Email: snapshot.data().info.Email,
-           Numero: snapshot.data().info.Numero,
-           status: snapshot.data().info.status,
-        //    photo: snapshot.data().info.photo,
-        //    abonnement: snapshot.data().info.abonnement,
-        //    profile: snapshot.data().info.profile,
-        //    offres: snapshot.data().offres,
-        //     demandes: snapshot.data().demandes,
-            // chatRoom: snapshot.data().chatRoom
-       });
-       }
-   )
-   return () => unsubscribe();
-}, [])
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
