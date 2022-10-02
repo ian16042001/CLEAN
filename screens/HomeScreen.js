@@ -196,6 +196,18 @@ const HomeScreen = ({navigation}) => {
     )
 }
 
+const [logged, setLogged] = useState(false)
+
+useEffect(() => {
+  const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      setLogged(true)
+    }
+  })
+  return unsubscribe;
+}, [])
+
+
 const {currentUser} = firebase.auth();
 
 const [info, setInfo] = useState([]);
@@ -224,7 +236,7 @@ useEffect(() => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       {
-        !currentUser ?
+        !logged ?
 
         <View style={style.header}>
         <View style={{paddingBottom: 15}}>
