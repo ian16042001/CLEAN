@@ -21,7 +21,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import hotels from '../constants/hotels';
 const {width, height} = Dimensions.get('screen');
 // import { Modalize } from 'react-native-modalize';
-
+import { firebase } from '../firebase';
+import ListItem from '../components/ListItem';
 // TODO: 
 // BOOKING date and period
 // Ticket reservation
@@ -32,6 +33,28 @@ const Reservation = ({navigation, route}) => {
   const item = route.params;
 
 
+  const [ram, setRam] = useState([])
+  useEffect(() => {
+      const unsubscribe = firebase.firestore()
+      .collection('Rammaseur').onSnapshot(snapshot=>
+          { 
+              setRam(
+                  snapshot.docs.map(doc =>({
+                      user: doc.data().Nom,
+                      titre: doc.data().Secteur,
+                      description: doc.data().Group,
+                      // photo: doc.data().photo,
+                      location: doc.data().Numero,
+                      // date: doc.data().date,
+                      category: doc.data().category,
+                      // likes: doc.data().likes,
+                      // unLike: doc.data().unLike
+                  })
+              ))
+          }
+       )
+       return () => unsubscribe();
+    }, [])
 
   const [isInTown, setInTown] = useState(true);
   const toggleSwitchInTown = () => setInTown(previousState => !previousState);
@@ -199,40 +222,32 @@ const Reservation = ({navigation, route}) => {
 
 
   
-
-            <View>
-                {/* Top villes */}
-                <View
-                style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginHorizontal: 20,
-                    marginTop: 10
-                }}>
-                <Text style={{fontWeight: 'bold', color: COLORS.grey}}>
-                    Groupe de rammassage
-                </Text>
-                <Text style={{color: COLORS.primary, textDecorationLine: 'underline'}}>{choosenHotel}</Text>
-                </View>
-                <FlatList
-                data={hotels}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{
-                    paddingLeft: 20,
-                    marginTop: 10,
-                    paddingBottom: 30,
-                }}
-                renderItem={({item}) => <TopHotelCard hotel={item} />}
-                />
-          </View>
+        <Text style={{
+  color: COLORS.primary,
+  fontSize: 20,
+  fontWeight: 'bold',
+  marginLeft: 10,
+  marginTop: 20
+}}>Groupe de ramassage</Text>
+        <View style={{padding: 20}}>
+            {
+                ram.map(item => (
+                    <ListItem
+                      key={item.id}
+                      photo={item.photo}
+                      title={item.titre}
+                      subTitle={item.description}
+                      isFree={item.isFree}
+                      userName={item.user}
+                      likes={0}
+                      unLike={ 0}
+                      onPress={() => navigation.navigate('OfferPack')}
+                    />
+                  ))
+            }
+        </View>
 
 
-        <TouchableOpacity onPress={() => navigation.navigate('OfferPack')} style={style.btn}>
-          <Text style={{color: COLORS.white, fontSize: 18, fontWeight: 'bold'}}>
-            Confirmer mon enrollement
-          </Text>
-        </TouchableOpacity>
       </View>
       {/* <Modalize ref={modalizeRef}></Modalize> */}
     </ScrollView>

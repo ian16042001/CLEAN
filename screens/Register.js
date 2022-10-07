@@ -33,9 +33,6 @@ export default function Register({navigation}) {
 
     const [okload, setOkload] = useState(false);
 
-
-    
-
     function Loader(){
         if (okload===true){
             return(

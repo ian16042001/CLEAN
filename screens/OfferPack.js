@@ -127,7 +127,7 @@ export default function OfferPack({navigation}) {
                     Numero: info.Numero,
                     status: info.status,
                     // photo: info.photo,
-                    abonnement: 'Professionnel'
+                    abonnement: 'Professionnel',
                 },
                 // offres: info.offres,
                 // demandes: info.demandes,

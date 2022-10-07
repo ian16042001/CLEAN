@@ -6,7 +6,10 @@ import Onboarding from "./Onboarding";
 import Reservation from "./Reservation";
 import Pay from "./Pay";
 import OfferPack from "./OfferPack";
-
+import Profile from "./Profile";
+import AdminPage from "./AdminPage";
+import GererRam from "./GererRam";
+import AddRam from "./AddRam";
 
 export {
     Login,
@@ -16,5 +19,9 @@ export {
     Onboarding,
     Reservation,
     Pay,
-    OfferPack
+    OfferPack,
+    Profile,
+    AdminPage,
+    GererRam,
+    AddRam
 }

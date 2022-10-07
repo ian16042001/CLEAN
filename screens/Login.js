@@ -60,6 +60,8 @@ export default function Login({navigation}) {
         return re.test(email);
     }
 
+const [info, setInfo] = useState([]);
+
     const submit = () => {
         if(email.length == 0 || pass.length == 0){
             alert('Veillez remplir completement le formulaire')
@@ -69,7 +71,25 @@ export default function Login({navigation}) {
                 firebase.auth().signInWithEmailAndPassword(email, pass)
                     .then(() => {
                         setOkload(false)
+    //                     const {currentUser} = firebase.auth();
+
+    //   firebase.firestore()
+    // .collection('Users').doc(currentUser.uid).onSnapshot(snapshot=>
+    //     { 
+    //         setInfo({
+    //          id: snapshot.data().info.id,
+    //          Nom: snapshot.data().info.Nom,
+    //          Email: snapshot.data().info.Email,
+    //          Numero: snapshot.data().info.Numero,
+    //          status: snapshot.data().info.status,
+    //      });
+    //      }
+    //  )
+    //                 if(info.status == 'Admin'){
+    //                     navigation.navigate('AdminPage')
+    //                 } else {
                         navigation.navigate('HomeScreen')
+    //                 }
                     })
                     .catch(error => {
                         setOkload(false)

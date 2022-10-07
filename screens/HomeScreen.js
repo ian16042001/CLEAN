@@ -31,6 +31,7 @@ const {
   } = images;
 
 import { images, icons, FONTS, SIZES } from '../constants';
+import ListItem from '../components/ListItem';
 
 
 const HomeScreen = ({navigation}) => {
@@ -204,20 +205,7 @@ useEffect(() => {
     if (user) {
       setLogged(true)
 
-const {currentUser} = firebase.auth();
 
-      firebase.firestore()
-    .collection('Users').doc(currentUser.uid).onSnapshot(snapshot=>
-        { 
-            setInfo({
-             id: snapshot.data().info.id,
-             Nom: snapshot.data().info.Nom,
-             Email: snapshot.data().info.Email,
-             Numero: snapshot.data().info.Numero,
-             status: snapshot.data().info.status,
-         });
-         }
-     )
     }
   })
   return unsubscribe;
@@ -231,10 +219,32 @@ const {currentUser} = firebase.auth();
 //      return () => unsubscribe();
 //   }, [])
 // }
-
+const [ram, setRam] = useState([])
+useEffect(() => {
+    const unsubscribe = firebase.firestore()
+    .collection('Rammaseur').onSnapshot(snapshot=>
+        { 
+            setRam(
+                snapshot.docs.map(doc =>({
+                    user: doc.data().Nom,
+                    titre: doc.data().Secteur,
+                    description: doc.data().Group,
+                    // photo: doc.data().photo,
+                    location: doc.data().Numero,
+                    // date: doc.data().date,
+                    category: doc.data().category,
+                    // likes: doc.data().likes,
+                    // unLike: doc.data().unLike
+                })
+            ))
+        }
+     )
+     return () => unsubscribe();
+  }, [])
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
+              
       {
         !logged ?
 
@@ -251,9 +261,11 @@ const {currentUser} = firebase.auth();
             </Text>
           </View>
         </View>
-        <MaterialIcons name="person-outline" size={38} color={COLORS.grey} />
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <MaterialIcons name="person-outline" size={38} color={COLORS.grey} />
+        </TouchableOpacity>
       </View>
-
+    
         :
 
         <View
@@ -283,7 +295,7 @@ const {currentUser} = firebase.auth();
           </View>
         </View>
           </View>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <ImageBackground
             source={profilPic}
             style={{width: 55, height: 55, overflow: 'hidden', borderRadius: 25}}
@@ -328,6 +340,33 @@ const {currentUser} = firebase.auth();
             renderItem={({item, index}) => <Card ville={item} index={index} />}
             snapToInterval={cardWidth}
           />
+        </View>
+
+
+
+<Text style={{
+  color: COLORS.primary,
+  fontSize: 20,
+  fontWeight: 'bold',
+  marginLeft: 10
+}}>Groupe de ramassage</Text>
+
+        <View style={{padding: 20}}>
+            {
+                ram.map(item => (
+                    <ListItem
+                      key={item.id}
+                      photo={item.photo}
+                      title={item.titre}
+                      subTitle={item.description}
+                      isFree={item.isFree}
+                      userName={item.user}
+                      likes={0}
+                      unLike={ 0}
+                      onPress={() => navigation.navigate('OfferPack')}
+                    />
+                  ))
+            }
         </View>
 
 
